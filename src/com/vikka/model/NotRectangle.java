@@ -54,4 +54,32 @@ public class NotRectangle {
     public void setTo(ArrayList<Integer> to) {
         this.to = to;
     }
+    
+     ArrayList<Double> Multiply(ArrayList<ArrayList<Double>> matrix, ArrayList<Double> vector) {
+        int n = matrix.size();
+        ArrayList<Double> res = new ArrayList<Double>();
+        for (int i = 0; i < n; ++i) {
+            double sum = 0;
+            for (int j = 0; j < n; ++j) {
+                sum += matrix.get(i).get(j) * vector.get(j);
+            }
+            res.add(sum);
+        }
+        return res;
+    }
+
+    void MakeMoves(int degree, int move_x, int move_y, int x, int y) {
+        double deg = degree / 360.0 * 2.0 * Math.PI;
+        ArrayList<ArrayList<Double>> matrix = new ArrayList<ArrayList<Double>>();
+        matrix.add(new ArrayList<Double>(Arrays.asList(cos(deg), -sin(deg))));
+        matrix.add(new ArrayList<Double>(Arrays.asList(sin(deg), cos(deg))));
+        for (Point p : points) {
+            p.setX(p.getX() + move_x);
+            p.setY(p.getY() + move_y);
+            ArrayList<Double> pnt =
+                    Multiply(matrix, new ArrayList(Arrays.asList(p.getX(), p.getY())));
+            p.setX((int)(double) pnt.get(0));
+            p.setY((int)(double) pnt.get(1));
+        }
+    }
 }
